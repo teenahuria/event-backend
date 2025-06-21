@@ -1,7 +1,7 @@
 const express = require('express');
 const publicRoutes = express.Router();
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const pool = require('../services/db'); // ✅ Adjust this if your DB config file is named differently
 
 // Middleware

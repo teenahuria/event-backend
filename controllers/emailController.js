@@ -1,6 +1,6 @@
 const { User } = require('../models/users');
 const sendMail = require('../utils/sendMail');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 
 exports.forgotPassword = async (req, res) => {

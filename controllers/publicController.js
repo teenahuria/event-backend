@@ -1,4 +1,6 @@
-const bcrypt = require('bcrypt');
+
+const bcrypt = require('bcryptjs');
+
 const { User } = require('../models/users');
 const { generateToken } = require('../utils/jwt'); // Import token generation function
 const { getClientIP, getUserAgent } = require('../utils/helper');

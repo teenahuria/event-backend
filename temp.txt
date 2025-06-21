@@ -1,0 +1,572 @@
+// publicRoutes.post('/login', (req, res) => {
+//     const token = req.headers['token']; // header keys are case-insensitive
+//     console.log("token", token)
+//     if (token && token === "yes") {
+//         Controller.login(req, res); // call the controller function with req and res
+//     } else {
+//         res.status(400).json({ success: false, message: "token not provided" });
+//     }
+// });
+// publicRoutes.post('/login1', (req, res) => {
+//     const token = req.headers['token']; // header keys are case-insensitive
+//     console.log("token", token)
+//     if (token && token === "yes") {
+//         Controller.login1(req, res); // call the controller function with req and res
+//     } else {
+//         res.status(400).json({ success: false, message: "token not provided" });
+//     }
+// });
+// publicRoutes.post('/login2', (req, res) => {
+//     const token = req.headers['token']; // header keys are case-insensitive
+//     console.log("token", token)
+//     if (token && token === "yes") {
+//         Controller.login2(req, res); // call the controller function with req and res
+//     } else {
+//         res.status(400).json({ success: false, message: "token not provided" });
+//     }
+// });
+
+
+
+
+// publicRoutes.post('/login1',validateToken, Controller.login1);
+
+const authMiddleware = (req, res, next) => {
+    const authHeader = req.headers['validation'];
+    const authToken = authHeader; 
+
+    if (!authToken) {
+        return res.status(400).json({ error: 'No token provided' });
+    }
+
+    if (authToken === "yes") {
+                next();
+    } else {
+        return res.status(401).json({ error: 'Your token is Invalid' });
+    }
+};
+
+
+
+
+const login= (req, res) => {
+    // return res.status(200).json({success:true, message:"Testing"})
+    const { id, password } = req.body;
+    console.log("CHECK details--", id , password)
+    if (!id || !password) {
+      return res.status(400).json({ message: 'Please enter the ID and password ' });
+    }
+  
+    const user = id_login.find(u => u.id === parseInt(id) && u.Password === password);
+    console.log("user", user)
+    if (user) {
+      return res.status(200).json({ message: 'Login successful!' });
+    } else {
+      return res.status(400).json({ message: 'Invalid credentials.' });
+    }
+  }
+
+  const login1= (req, res) => {
+    // return res.status(200).json({success:true, message:"Testing"})
+    const { id, password } = req.body;
+    console.log("CHECK details--", id , password)
+    if (!id || !password) {
+      return res.status(400).json({ message: 'Please enter the ID and password ' });
+    }
+  
+    const user = id_login.find(u => u.id === parseInt(id) && u.Password === password);
+    console.log("user", user)
+    if (user) {
+      return res.status(200).json({ message: 'Login successful! -- for login1' });
+    } else {
+      return res.status(400).json({ message: 'Invalid credentials.' });
+    }
+  }
+
+
+  const login2= (req, res) => {
+    // return res.status(200).json({success:true, message:"Testing"})
+    const { id, password } = req.body;
+    console.log("CHECK details--", id , password)
+    if (!id || !password) {
+      return res.status(400).json({ message: 'Please enter the ID and password ' });
+    }
+  
+    const user = id_login.find(u => u.id === parseInt(id) && u.Password === password);
+    console.log("user", user)
+    if (user) {
+      return res.status(200).json({ message: 'Login successful! -- for login2' });
+    } else {
+      return res.status(400).json({ message: 'Invalid credentials.' });
+    }
+  }
+
+
+  
+  // const Profile= (req, res) => {
+  //   // return res.status(200).json({success:true, message:"Testing"})
+  //   const { id, password } = req.body;
+  //   console.log("Profile details--", id , password)
+  //   if (!id || !password) {
+  //     return res.status(400).json({ message: 'Please enter your ID and password ' });
+  //   }
+  
+  //   const user = id_login.find(u => u.id === parseInt(id) && u.Password === password);
+  //   console.log("user", user)
+  //   if (user) {
+  //     return res.status(200).json({ message: 'Login is successful! -- for login2' });
+  //   } else {
+  //     return res.status(400).json({ message: 'The credentials are invalid.' });
+  //   }
+  // }
+
+
+  /*
+  <!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Event Management - Auth</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Sign Up Form -->
+  <div class="form-container" id="signupContainer">
+    <h2>Create an Account</h2>
+    <form id="signupForm">
+      <div class="form-group">
+        <label for="signupName">Full Name</label>
+        <input type="text" id="signupName" name="name" placeholder="Enter your full name" required />
+      </div>
+      <div class="form-group">
+        <label for="signupEmail">Email Address</label>
+        <input type="email" id="signupEmail" name="email" placeholder="Enter your email" required />
+      </div>
+      <div class="form-group">
+        <label for="signupPassword">Password</label>
+        <input type="password" id="signupPassword" name="password" placeholder="Create a password" required />
+      </div>
+      <button type="submit" class="form-button">Sign Up</button>
+      <p>Already have an account? <a href="#" id="showLogin">Log in</a></p>
+      <div id="signupResponse" class="response-message"></div>
+    </form>
+  </div>
+
+  <!-- Login Form -->
+  <div class="form-container hidden" id="loginContainer">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="loginEmail">Email Address</label>
+        <input type="email" id="loginEmail" name="email" placeholder="Enter your email" required />
+      </div>
+      <div class="form-group">
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" name="password" placeholder="Enter your password" required />
+      </div>
+      <button type="submit" class="form-button">Login</button>
+      <p><a href="#" id="showForgot">Forgot password?</a></p>
+      <p>Don't have an account? <a href="#" id="showSignup">Sign up</a></p>
+      <div id="loginResponse" class="response-message"></div>
+    </form>
+  </div>
+
+  <!-- Forgot Password Form -->
+  <div class="form-container hidden" id="forgotContainer">
+    <h2>Forgot Password</h2>
+    <form id="forgotForm">
+      <div class="form-group">
+        <label for="forgotEmail">Email Address</label>
+        <input type="email" id="forgotEmail" placeholder="Enter your email" required />
+      </div>
+      <button type="submit" class="form-button">Send OTP</button>
+      <p>Back to <a href="#" id="backToLoginFromForgot">login</a></p>
+      <div id="forgotResponse" class="response-message"></div>
+    </form>
+  </div>
+
+  <!-- Reset Password Form -->
+  <div class="form-container hidden" id="resetContainer">
+    <h2>Reset Password</h2>
+    <form id="resetForm">
+      <div class="form-group">
+        <label for="otp">OTP</label>
+        <input type="text" id="otp" placeholder="Enter the OTP" required />
+      </div>
+      <div class="form-group">
+        <label for="newPassword">New Password</label>
+        <input type="password" id="newPassword" placeholder="Enter new password" required />
+      </div>
+      <button type="submit" class="form-button">Reset Password</button>
+      <div id="resetResponse" class="response-message"></div>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html><!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Event Management - Auth</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Sign Up Form -->
+  <div class="form-container" id="signupContainer">
+    <h2>Create an Account</h2>
+    <form id="signupForm">
+      <div class="form-group">
+        <label for="signupName">Full Name</label>
+        <input type="text" id="signupName" name="name" placeholder="Enter your full name" required />
+      </div>
+      <div class="form-group">
+        <label for="signupEmail">Email Address</label>
+        <input type="email" id="signupEmail" name="email" placeholder="Enter your email" required />
+      </div>
+      <div class="form-group">
+        <label for="signupPassword">Password</label>
+        <input type="password" id="signupPassword" name="password" placeholder="Create a password" required />
+      </div>
+      <button type="submit" class="form-button">Sign Up</button>
+      <p>Already have an account? <a href="#" id="showLogin">Log in</a></p>
+      <div id="signupResponse" class="response-message"></div>
+    </form>
+  </div>
+
+  <!-- Login Form -->
+  <div class="form-container hidden" id="loginContainer">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="loginEmail">Email Address</label>
+        <input type="email" id="loginEmail" name="email" placeholder="Enter your email" required />
+      </div>
+      <div class="form-group">
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" name="password" placeholder="Enter your password" required />
+      </div>
+      <button type="submit" class="form-button">Login</button>
+      <p><a href="#" id="showForgot">Forgot password?</a></p>
+      <p>Don't have an account? <a href="#" id="showSignup">Sign up</a></p>
+      <div id="loginResponse" class="response-message"></div>
+    </form>
+  </div>
+
+  <!-- Forgot Password Form -->
+  <div class="form-container hidden" id="forgotContainer">
+    <h2>Forgot Password</h2>
+    <form id="forgotForm">
+      <div class="form-group">
+        <label for="forgotEmail">Email Address</label>
+        <input type="email" id="forgotEmail" placeholder="Enter your email" required />
+      </div>
+      <button type="submit" class="form-button">Send OTP</button>
+      <p>Back to <a href="#" id="backToLoginFromForgot">login</a></p>
+      <div id="forgotResponse" class="response-message"></div>
+    </form>
+  </div>
+
+  <!-- Reset Password Form -->
+  <div class="form-container hidden" id="resetContainer">
+    <h2>Reset Password</h2>
+    <form id="resetForm">
+      <div class="form-group">
+        <label for="otp">OTP</label>
+        <input type="text" id="otp" placeholder="Enter the OTP" required />
+      </div>
+      <div class="form-group">
+        <label for="newPassword">New Password</label>
+        <input type="password" id="newPassword" placeholder="Enter new password" required />
+      </div>
+      <button type="submit" class="form-button">Reset Password</button>
+      <div id="resetResponse" class="response-message"></div>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>*/
+
+
+/*
+// script.js
+const signupContainer = document.getElementById('signupContainer');
+const loginContainer = document.getElementById('loginContainer');
+const forgotContainer = document.getElementById('forgotContainer');
+const resetContainer = document.getElementById('resetContainer');
+
+// Toggle Views
+document.getElementById('showLogin').addEventListener('click', () => {
+  signupContainer.classList.add('hidden');
+  loginContainer.classList.remove('hidden');
+});
+
+document.getElementById('showSignup').addEventListener('click', () => {
+  loginContainer.classList.add('hidden');
+  signupContainer.classList.remove('hidden');
+});
+
+document.getElementById('showForgot').addEventListener('click', () => {
+  loginContainer.classList.add('hidden');
+  forgotContainer.classList.remove('hidden');
+});
+
+document.getElementById('backToLoginFromForgot').addEventListener('click', () => {
+  forgotContainer.classList.add('hidden');
+  loginContainer.classList.remove('hidden');
+});
+
+// Sign-up
+const signupForm = document.getElementById('signupForm');
+signupForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const name = document.getElementById('signupName').value.trim();
+  const email = document.getElementById('signupEmail').value.trim();
+  const password = document.getElementById('signupPassword').value;
+  const resMsg = document.getElementById('signupResponse');
+
+  try {
+    const res = await fetch('http://localhost:5000/api/v1/public/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      resMsg.style.color = 'green';
+      resMsg.textContent = 'Sign-up successful! Redirecting...';
+      setTimeout(() => {
+        document.getElementById('showLogin').click();
+        signupForm.reset();
+        resMsg.textContent = '';
+      }, 1500);
+    } else {
+      resMsg.style.color = 'red';
+      resMsg.textContent = data.message || 'Sign-up failed.';
+    }
+  } catch (err) {
+    resMsg.style.color = 'red';
+    resMsg.textContent = 'Could not connect to server.';
+  }
+});
+
+// Login
+const loginForm = document.getElementById('loginForm');
+loginForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const resMsg = document.getElementById('loginResponse');
+
+  try {
+    const res = await fetch('http://localhost:5000/api/v1/public/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      resMsg.style.color = 'green';
+      resMsg.textContent = 'Login successful!';
+    } else {
+      resMsg.style.color = 'red';
+      resMsg.textContent = data.message || 'Login failed.';
+    }
+  } catch (err) {
+    resMsg.style.color = 'red';
+    resMsg.textContent = 'Could not connect to server.';
+  }
+});
+
+// Forgot Password
+const forgotForm = document.getElementById('forgotForm');
+forgotForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = document.getElementById('forgotEmail').value.trim();
+  const resMsg = document.getElementById('forgotResponse');
+
+  try {
+    const res = await fetch('http://localhost:5000/api/v5/public/forgot-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      resMsg.style.color = 'green';
+      resMsg.textContent = 'OTP sent to email.';
+      setTimeout(() => {
+        forgotContainer.classList.add('hidden');
+        resetContainer.classList.remove('hidden');
+      }, 1000);
+    } else {
+      resMsg.style.color = 'red';
+      resMsg.textContent = data.message || 'Failed to send OTP.';
+    }
+  } catch (err) {
+    resMsg.style.color = 'red';
+    resMsg.textContent = 'Error connecting to server.';
+  }
+});
+
+// Reset Password
+const resetForm = document.getElementById('resetForm');
+resetForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const otp = document.getElementById('otp').value.trim();
+  const newPassword = document.getElementById('newPassword').value;
+  const resMsg = document.getElementById('resetResponse');
+
+  try {
+    const verifyRes = await fetch('http://localhost:5000/api/v5/public/verify-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ otp })
+    });
+    const verifyData = await verifyRes.json();
+
+    if (!verifyRes.ok) {
+      resMsg.style.color = 'red';
+      resMsg.textContent = verifyData.message || 'Invalid OTP.';
+      return;
+    }
+
+    const resetRes = await fetch('http://localhost:5000/api/v5/public/reset-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ otp, newPassword })
+    });
+    const resetData = await resetRes.json();
+    if (resetRes.ok) {
+      resMsg.style.color = 'green';
+      resMsg.textContent = 'Password reset successfully!';
+      setTimeout(() => {
+        resetForm.reset();
+        resetContainer.classList.add('hidden');
+        loginContainer.classList.remove('hidden');
+      }, 1500);
+    } else {
+      resMsg.style.color = 'red';
+      resMsg.textContent = resetData.message || 'Reset failed.';
+    }
+  } catch (err) {
+    resMsg.style.color = 'red';
+    resMsg.textContent = 'Error connecting to server.';
+  }
+});*/
+
+
+/*
+/* styles.css */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #74ebd5, #9face6);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container {
+  background-color: white;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+  display: block;
+}
+
+.form-container.hidden {
+  display: none;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #555;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.form-group input:focus {
+  border-color: #74ebd5;
+  outline: none;
+  box-shadow: 0 0 5px rgba(116, 235, 213, 0.5);
+}
+
+.form-button {
+  width: 100%;
+  padding: 14px;
+  background-color: #74ebd5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.form-button:hover {
+  background-color: #63d7c4;
+}
+
+p {
+  margin-top: 15px;
+  text-align: center;
+}
+
+a {
+  color: #5b76e0;
+  text-decoration: none;
+}
+
+.response-message {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 14px;
+}*/
+
+
+
+csss
+.form-page {
+    max-width: 400px;
+    margin: 2rem auto;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

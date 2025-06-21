@@ -4,7 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const bodyParser = require('body-parser');
-const { sequelize } = require('./lib/config/db_connection');
+const { sequelize } = require('./services/db'); // ✅ matches your structure
 
 const app = express();
 const PORT = process.env.Backend_Port || 5000; // ✅ Fallback for local
